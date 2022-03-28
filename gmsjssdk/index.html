@@ -81,6 +81,15 @@
                       gms_Transaction_ETH
                   </button>
 
+                  <button
+                          class="btn btn-primary btn-lg btn-block mb-3"
+                          id="get_support_tokens"
+                  >
+                      get_support_tokens
+                  </button>
+
+
+
               </div>
             </div>
           </div>
@@ -191,11 +200,12 @@
 
     <script src="bundle.js"></script>
    <script>
-       var appid='n4uWXNHoAf1vtlCT';
+       //var appid='n4uWXNHoAf1vtlCT';
+       var appid='BZsEqqXvhaHOSHdS';
+
        var User={
            from:"",
-           sign:"",
-           to:"0xeB9ce7D902342013E0D18cA132785bC7ABE61D2A"
+           sign:""
        }
 
        document.getElementById('gmsConnectButton').onclick=function (){
@@ -248,12 +258,8 @@
            if(User.from.length==0){
                return
            }
-
-           if(User.to.length==0){
-               return
-           }
            let amount=GMSSDK.parseUnits("1.0",18)._hex;
-           GMSSDK.transaction("your orderid",User.from,User.to,amount).then((res)=>{
+           GMSSDK.transaction("your orderid",User.from,amount).then((res)=>{
                console.log(res)
            }).catch((err)=>{
                console.log(err)}
@@ -296,7 +302,7 @@
 
        document.getElementById("gmsTransferErc20").onclick=function (){
            let amount=3
-           GMSSDK.transferErc20Tokens("your orderid",User.from,User.to,amount).then((res)=>{
+           GMSSDK.transferErc20Tokens("your orderid",User.from,amount).then((res)=>{
                console.log(res)
            }).catch((err)=>{
                console.log(err)}
@@ -332,7 +338,7 @@
 
        document.getElementById("gmsTransferErc721").onclick=function (){
            let tokenid="100"
-           GMSSDK.transferErc721Tokens("your orderid",User.from,User.to,tokenid,"your callback url").then((res)=>{
+           GMSSDK.transferErc721Tokens("your orderid",User.from,tokenid,"your callback url").then((res)=>{
                console.log(res)
            }).catch((err)=>{
                console.log(err)}
@@ -360,6 +366,14 @@
 
        //Permissions end
 
+       document.getElementById('get_support_tokens').onclick=function () {
+           GMSSDK.getTokenList().then((res)=>{
+               console.log(res)
+           }).catch((err)=>{console.log(err)})
+
+
+       }
+
        function init(){
            // your appid
            GMSSDK.init(appid,1)
@@ -367,6 +381,10 @@
 
        window.addEventListener('DOMContentLoaded', init);
 
+
+       GMSSDK.getChainList(appid).then((res)=>{
+           console.log(res)
+       }).catch((err)=>{console.log(err)})
    </script>
   </body>
 </html>
