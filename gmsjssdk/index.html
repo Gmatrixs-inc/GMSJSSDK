@@ -39,6 +39,13 @@
                   Basic Actions
                 </h4>
 
+                  <button
+                          class="btn btn-primary btn-lg btn-block mb-3"
+                          id="get_support_chain"
+                  >
+                      get_support_chain
+                  </button>
+
                 <button
                   class="btn btn-primary btn-lg btn-block mb-3"
                   id="gmsConnectButton"
@@ -259,11 +266,16 @@
                return
            }
            let amount=GMSSDK.parseUnits("1.0",18)._hex;
-           GMSSDK.transaction("your orderid",User.from,amount).then((res)=>{
+           GMSSDK.pay(0,"your orderid",User.from,amount).then((res)=>{
                console.log(res)
            }).catch((err)=>{
                console.log(err)}
            )
+           /*GMSSDK.transaction("your orderid",User.from,amount).then((res)=>{
+               console.log(res)
+           }).catch((err)=>{
+               console.log(err)}
+           )*/
        }
 
        document.getElementById("gmsGetBalance").onclick=function (){
@@ -365,6 +377,11 @@
        }*/
 
        //Permissions end
+       document.getElementById('get_support_chain').onclick=function () {
+           GMSSDK.getChainList(appid).then((res)=>{
+               console.log(res)
+           }).catch((err)=>{console.log(err)})
+       }
 
        document.getElementById('get_support_tokens').onclick=function () {
            GMSSDK.getTokenList().then((res)=>{
@@ -376,15 +393,10 @@
 
        function init(){
            // your appid
-           GMSSDK.init(appid,1)
+           GMSSDK.init(appid)
        }
 
        window.addEventListener('DOMContentLoaded', init);
-
-
-       GMSSDK.getChainList(appid).then((res)=>{
-           console.log(res)
-       }).catch((err)=>{console.log(err)})
    </script>
   </body>
 </html>
