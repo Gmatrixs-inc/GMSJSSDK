@@ -46,6 +46,14 @@
                       get_support_chain
                   </button>
 
+                  <div class="form-group">
+                      <label>Type</label>
+                      <select class="browser-default custom-select" id="typeInput">
+                          <!--<option value="0x0">0x0</option>
+                          <option value="0x2">0x2</option>-->
+                      </select>
+                  </div>
+
                 <button
                   class="btn btn-primary btn-lg btn-block mb-3"
                   id="gmsConnectButton"
@@ -94,8 +102,6 @@
                   >
                       get_support_tokens
                   </button>
-
-
 
               </div>
             </div>
@@ -265,7 +271,7 @@
            if(User.from.length==0){
                return
            }
-           let amount=GMSSDK.parseUnits("1.0",18)._hex;
+           let amount=GMSSDK.parseUnits("0.001",18)._hex;
            GMSSDK.pay(0,"your orderid",User.from,amount).then((res)=>{
                console.log(res)
            }).catch((err)=>{
@@ -313,8 +319,14 @@
        }
 
        document.getElementById("gmsTransferErc20").onclick=function (){
-           let amount=3
+           /*let amount=3
            GMSSDK.transferErc20Tokens("your orderid",User.from,amount).then((res)=>{
+               console.log(res)
+           }).catch((err)=>{
+               console.log(err)}
+           )*/
+           let amount=GMSSDK.parseUnits("1.0",18)._hex;
+           GMSSDK.pay(1,"your orderid",User.from,amount).then((res)=>{
                console.log(res)
            }).catch((err)=>{
                console.log(err)}
@@ -377,9 +389,24 @@
        }*/
 
        //Permissions end
+       var chainlist=[]
        document.getElementById('get_support_chain').onclick=function () {
            GMSSDK.getChainList(appid).then((res)=>{
                console.log(res)
+               chainlist=res
+               let str='';
+               for (let idx in res) {
+                   str+='<option value='+idx+'>'+res[idx].name+'</option>\n';
+               }
+               let type=document.getElementById('typeInput')
+               type.innerHTML=str
+               type.onchange =() => {
+                   GMSSDK.switchChain(chainlist[type.value]).then((res)=>{
+                       console.log(res)
+                   }).catch((err)=>{
+                       console.log(err)
+                   });
+               };
            }).catch((err)=>{console.log(err)})
        }
 
