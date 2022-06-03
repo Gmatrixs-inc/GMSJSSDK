@@ -203,6 +203,15 @@
                   >
                       gms_Transfer_Erc721
                   </button>
+
+                  <button
+                          class="btn btn-primary btn-lg btn-block mb-3"
+                          id="gmsMintErc721"
+                  >
+                      gmsMintErc721
+                  </button>
+
+
               </div>
             </div>
           </div>
@@ -213,8 +222,8 @@
 
     <script src="bundle.js"></script>
    <script>
-       //var appid='n4uWXNHoAf1vtlCT';
-       var appid='BZsEqqXvhaHOSHdS';
+       var appid='n4uWXNHoAf1vtlCT';
+
 
        var User={
            from:"",
@@ -361,8 +370,16 @@
        }
 
        document.getElementById("gmsTransferErc721").onclick=function (){
-           let tokenid="100"
+           let tokenid=10
            GMSSDK.transferErc721Tokens("your orderid",User.from,tokenid,"your callback url").then((res)=>{
+               console.log(res)
+           }).catch((err)=>{
+               console.log(err)}
+           )
+       }
+
+       document.getElementById("gmsMintErc721").onclick=function (){
+           GMSSDK.mintErc721(1).then((res)=>{
                console.log(res)
            }).catch((err)=>{
                console.log(err)}
